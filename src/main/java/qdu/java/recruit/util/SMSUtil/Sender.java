@@ -44,10 +44,11 @@ public class Sender {
         int CODEinString=new Random().nextInt(9999-1000+1)+1000;
         String CODE = String.valueOf(CODEinString);
 
-        request.getSession().setAttribute("smscode", CODE);
-        System.out.println("====================验证码=========================");
-        System.out.println(CODE);
-        System.out.println("====================验证码=========================");
+        String sessionKey = "smscode_" + request.getSession().getId();
+        request.getSession().setAttribute(sessionKey, CODE);
+        System.out.println("=============================================验证码==================================================");
+        System.out.println("验证码为：" + CODE);
+        System.out.println("=============================================验证码==================================================");
 
 
         // 设置请求的header

@@ -26,7 +26,10 @@ public class SMSController {
     @ResponseBody
     @PostMapping(value = "/verifyCode")
     public String smsverifyCode(@RequestParam String mobile, @RequestParam String code, HttpServletRequest request) {
-        return code.equals(request.getSession().getAttribute("smscode")) ? "1" : "0";
+        String sessionKey = "smscode_" + request.getSession().getId();
+        String res = code.equals(request.getSession().getAttribute(sessionKey)) ? "1" : "0";
+        request.getSession().removeAttribute(sessionKey);
+        return res;
         // int state =verifyCode(mobile,code);
         // if(state==Integer.valueOf("1")){
         //     return "1";
