@@ -8,6 +8,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,7 +33,7 @@ public class Sender {
     //验证码长度，范围4～10，默认为4
     private static final String CODELEN="4";
 
-    public static int sendCode(String MOBILE) {
+    public static int sendCode(String MOBILE, HttpServletRequest request) {
         DefaultHttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(SERVER_URL);
         String curTime = String.valueOf((new Date()).getTime() / 1000L);
@@ -42,6 +43,13 @@ public class Sender {
 
         int CODEinString=new Random().nextInt(9999-1000+1)+1000;
         String CODE = String.valueOf(CODEinString);
+
+        request.getSession().setAttribute("smscode", CODE);
+        System.out.println("====================验证码=========================");
+        System.out.println(CODE);
+        System.out.println("====================验证码=========================");
+
+
         // 设置请求的header
         httpPost.addHeader("AppKey", APP_KEY);
         httpPost.addHeader("Nonce", NONCE);
