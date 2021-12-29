@@ -33,7 +33,7 @@ public class Sender {
     //验证码长度，范围4～10，默认为4
     private static final String CODELEN="4";
 
-    public static int sendCode(String MOBILE, HttpServletRequest request) {
+    public static int sendCode(String MOBILE) {
         DefaultHttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(SERVER_URL);
         String curTime = String.valueOf((new Date()).getTime() / 1000L);
@@ -43,13 +43,6 @@ public class Sender {
 
         int CODEinString=new Random().nextInt(9999-1000+1)+1000;
         String CODE = String.valueOf(CODEinString);
-
-        request.getSession().setAttribute("smscode", CODE);
-        System.out.println("====================验证码=========================");
-        System.out.println(CODE);
-        System.out.println("====================验证码=========================");
-
-
         // 设置请求的header
         httpPost.addHeader("AppKey", APP_KEY);
         httpPost.addHeader("Nonce", NONCE);
